@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import '../styles/InputForm.css';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClipboard } from '@fortawesome/free-regular-svg-icons'
+
 function InputForm() {
     const [passwordLength, setPasswordLength] = useState(8);
     const [password, setPassword] = useState('');
@@ -52,12 +55,26 @@ function InputForm() {
         setPassword(generatedPassword);
     }
 
+    const copyToClipboard = () => {
+        if (password) {
+            navigator.clipboard.writeText(password)
+            .then(() => {
+                alert('Password copied to clipboard!');
+            })
+            .catch((error) => {
+                console.error('Failed to copy: ', error);
+            });
+        }
+    }
+
     return (
         <div className='form-container'>
             <h1>Password Generator</h1>
 
             <div className="password-container">
                 <p>{password}</p>
+
+                <FontAwesomeIcon onClick={copyToClipboard} className='clip-icon' icon={faClipboard} />
             </div>
 
             <form action="" className="password-form" onSubmit={handleSubmit}>
